@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Brand {
+  id                  Int      @unique @default(autoincrement())
+  slug                String  @unique @db.VarChar(255)
+  name                String  @unique @db.VarChar(255)
+  wheelbases          Wheelbase[]
+}
+
+model Wheelbase {
+  id                  Int      @unique @default(autoincrement())
+  slug                String  @unique @db.VarChar(255)
+  model               String  @unique @db.VarChar(255)
+  brandId             Int?
+  brand               Brand?   @relation(fields: [brandId], references: [id])
+  price               Float?
+  torque              Float?
+  drive_type          String?
+  swappable_wheels    Boolean?
+  platforms           String[]
+  degrees_of_rotation String?
+}

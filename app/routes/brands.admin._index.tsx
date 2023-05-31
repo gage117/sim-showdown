@@ -6,7 +6,7 @@ export default function Admin() {
       <h1>Admin</h1>
       <ul>
         <li>
-          <Link to="brands">Brands</Link>
+          <Link to="new">Brands</Link>
         </li>
       </ul>
     </main>

@@ -1,25 +1,20 @@
 import type { V2_MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
-import { Button, Typography } from "@mui/material";
-
+import { Typography } from "@mui/material";
+import { useTheme } from "@emotion/react";
 export const meta: V2_MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "Sim Showdown" },
+    { name: "description", content: "Directly compare sim racing products" },
   ];
 };
 
 export default function Index() {
+  const theme = useTheme();
+  console.log(theme);
+  
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Material UI Remix in TypeScript example
-      </Typography>
-      <Link to="/brands">
-        <Button variant="contained" color="primary">
-          Brands
-        </Button>
-      </Link>
+      <Typography variant="h1">Sim Showdown</Typography>
     </div>
   );
 }

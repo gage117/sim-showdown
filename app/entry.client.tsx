@@ -4,9 +4,9 @@ import { hydrateRoot } from "react-dom/client";
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import ClientStyleContext from './ClientStyleContext';
-import createEmotionCache from './createEmotionCache';
-import theme from './theme';
+import ClientStyleContext from './src/ClientStyleContext';
+import createEmotionCache from './src/createEmotionCache';
+import theme from './src/theme';
 
 interface ClientCacheProviderProps {
   children: React.ReactNode;
@@ -29,17 +29,28 @@ function ClientCacheProvider({ children }: ClientCacheProviderProps) {
     </ClientStyleContext.Provider>
   );
 }
-React.startTransition(() => {
-  hydrateRoot(
-    document,
-    <React.StrictMode>
-      <ClientCacheProvider>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <RemixBrowser />
-        </ThemeProvider>
-      </ClientCacheProvider>
-    </React.StrictMode>
-  );
-});
+
+const hydrate = () => {
+  React.startTransition(() => {
+    hydrateRoot(
+      document,
+      <React.StrictMode>
+        <ClientCacheProvider>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <RemixBrowser />
+          </ThemeProvider>
+        </ClientCacheProvider>
+      </React.StrictMode>
+    );
+  });
+};
+
+if (window.requestIdleCallback) {
+  window.requestIdleCallback(hydrate);
+} else {
+  // Safari doesn't support requestIdleCallback
+  // https://caniuse.com/requestidlecallback
+  window.setTimeout(hydrate, 1);
+}

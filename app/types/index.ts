@@ -27,3 +27,23 @@ export type Wheelbase = {
   pedals_included: boolean;
   notes?: string[];
 };
+
+const { PedalType, SensorType, ForceUnit } = require('@prisma/client');
+
+export type Pedal = {
+  id: number;
+  slug: string;
+  model: string;
+  brandId: number;
+  brand: Brand;
+  type: typeof PedalType;
+  price: number;
+  throttle_sensor: typeof SensorType;
+  brake_sensor: typeof SensorType;
+  brake_sensor_load_max?: number;
+  brake_sensor_load_unit?: typeof ForceUnit;
+  clutch_sensor: typeof SensorType;
+  heel_plate_included: boolean;
+  platforms: Platform[];
+  notes?: string[];
+};

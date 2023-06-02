@@ -41,21 +41,21 @@ model Wheelbase {
 }
 
 model Pedal {
-  id                  Int      @id @default(autoincrement())
-  slug                String  @unique @db.VarChar(255)
-  model               String  @unique @db.VarChar(255)
-  brandId             Int
-  brand               Brand   @relation(fields: [brandId], references: [id])
-  type                PedalType
-  price               Float
-  throttleSensor      SensorType @default(NA)
-  brakeSensor         SensorType @default(NA)
-  brakeSensorLoadMax  Int?
-  brakeSensorLoadUnit ForceUnit?
-  clutchSensor        SensorType @default(NA)
-  heelPlateIncluded   Boolean
-  platforms           Platform[] @relation("pedalPlatform")
-  notes               String[]
+  id                     Int      @id @default(autoincrement())
+  slug                   String  @unique @db.VarChar(255)
+  model                  String  @unique @db.VarChar(255)
+  brandId                Int
+  brand                  Brand   @relation(fields: [brandId], references: [id])
+  type                   PedalType
+  price                  Float
+  throttle_sensor        SensorType @default(NA)
+  brake_sensor           SensorType @default(NA)
+  brake_sensor_load_max  Int?
+  brake_sensor_load_unit ForceUnit?
+  clutch_sensor          SensorType @default(NA)
+  heel_plate_included    Boolean
+  platforms              Platform[] @relation("pedalPlatform")
+  notes                  String[]
 }
 
 enum PedalType {
@@ -71,7 +71,7 @@ enum SensorType {
   HALL
   POTENTIOMETER
   LOAD_CELL
-  HYRDRAULIC_PRESSURE
+  HYDRAULIC_PRESSURE
   INDUCTIVE
   MAGNETIC
   OPTICAL
@@ -88,6 +88,7 @@ enum ForceFeedbackType {
 }
 
 enum ForceUnit {
+  NEWTONS
   NM
   KG
   PSI

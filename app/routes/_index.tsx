@@ -1,6 +1,13 @@
 import type { V2_MetaFunction } from "@remix-run/node";
-import { Typography } from "@mui/material";
-import { useTheme } from "@emotion/react";
+import { Link as RemixLink } from "@remix-run/react";
+import {
+  Button,
+  ButtonGroup,
+  Container,
+  Typography
+} from "@mui/material";
+import styled from "@emotion/styled";
+
 export const meta: V2_MetaFunction = () => {
   return [
     { title: "Sim Showdown" },
@@ -8,13 +15,26 @@ export const meta: V2_MetaFunction = () => {
   ];
 };
 
+const StyledLink = styled(RemixLink)`
+  color: inherit;
+  text-decoration: none;
+`;
+
 export default function Index() {
-  const theme = useTheme();
-  console.log(theme);
-  
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
+    <Container>
       <Typography variant="h1">Sim Showdown</Typography>
-    </div>
+      <ButtonGroup variant="contained" color="secondary">
+        <Button>
+          <StyledLink to="/wheelbases">Wheelbases</StyledLink>
+        </Button>
+        <Button>
+          <StyledLink to="/wheels">Wheels</StyledLink>
+        </Button>
+        <Button>
+          <StyledLink to="/pedals">Pedals</StyledLink>
+        </Button>
+      </ButtonGroup>
+    </Container>
   );
 }

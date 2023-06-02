@@ -1,12 +1,10 @@
 import * as React from 'react';
 import {
   Box,
-  Container,
+  Stack,
   AppBar,
   Typography,
-  Button,
   Toolbar,
-  IconButton,
 } from '@mui/material';
 import { Link } from '@remix-run/react';
 import styled from '@emotion/styled';
@@ -19,25 +17,35 @@ const StyledLink = styled(Link)`
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <Box>
-      <AppBar position="static" color='secondary'>
+      <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <StyledLink to="/">Sim Showdown</StyledLink>
-          </IconButton>
-          <Container>
-            <StyledLink to="/brands">
-              <Typography variant="h6">
-                Brands
+          <StyledLink to="/">
+            <Typography variant="h5">
+              Sim Showdown
+            </Typography>
+          </StyledLink>
+          <Stack direction='row' spacing={2} sx={{ marginLeft: '20px', flexGrow: 1 }}>
+            <StyledLink to="/wheelbases">
+              <Typography variant="button" color="secondary">
+                Wheelbases
               </Typography>
             </StyledLink>
-          </Container>
-          <Button color="inherit">Login</Button>
+            <StyledLink to="/wheels">
+              <Typography variant="button" color="secondary">
+                Wheels
+              </Typography>
+            </StyledLink>
+            <StyledLink to="/pedals">
+              <Typography variant="button" color="secondary">
+                Pedals
+              </Typography>
+            </StyledLink>
+          </Stack>
+          <StyledLink to="/submit-data">
+            <Typography variant="button" color="secondary">
+              Submit Data
+            </Typography>
+          </StyledLink>
         </Toolbar>
       </AppBar>
       {children}

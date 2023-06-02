@@ -1,4 +1,4 @@
-const { Wheelbase } = require('@prisma/client')
+const { Wheelbase, ForceFeedbackType } = require('@prisma/client')
 
 const wheelbaseSeeds: Partial<typeof Wheelbase> = [
   {
@@ -10,7 +10,7 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
     },
     price: 999.99,
     torque: 10,
-    drive_type: 'Direct Drive',
+    drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: false,
     platforms: [
       'PC',
@@ -30,7 +30,7 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
     },
     price: 349.95,
     torque: 5,
-    drive_type: 'Direct Drive',
+    drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
     platforms: [
       'PC',
@@ -49,7 +49,7 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
     },
     price: 499.95,
     torque: 8,
-    drive_type: 'Direct Drive',
+    drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
     platforms: [
       'PC',
@@ -68,7 +68,7 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
     },
     price: 599.95,
     torque: 8,
-    drive_type: 'Direct Drive',
+    drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
     platforms: [
       'PC',
@@ -87,7 +87,7 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
     },
     price: 1199.95,
     torque: 20,
-    drive_type: 'Direct Drive',
+    drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
     platforms: [
       'PC',
@@ -106,7 +106,7 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
     },
     price: 1499.95,
     torque: 25,
-    drive_type: 'Direct Drive',
+    drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
     platforms: [
       'PC',
@@ -125,7 +125,7 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
     },
     price: 1199.00,
     torque: 17,
-    drive_type: 'Direct Drive',
+    drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
     platforms: [
       'PC',
@@ -143,7 +143,7 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
     },
     price: 1379.00,
     torque: 25,
-    drive_type: 'Direct Drive',
+    drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
     platforms: [
       'PC',
@@ -161,7 +161,7 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
     },
     price: 2949.00,
     torque: 32,
-    drive_type: 'Direct Drive',
+    drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
     platforms: [
       'PC',
@@ -179,7 +179,7 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
     },
     price: 319.00,
     torque: 5,
-    drive_type: 'Direct Drive',
+    drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
     platforms: [
       'PC',
@@ -197,7 +197,7 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
     },
     price: 439.00,
     torque: 9,
-    drive_type: 'Direct Drive',
+    drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
     platforms: [
       'PC',
@@ -215,7 +215,7 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
     },
     price: 899.00,
     torque: 16,
-    drive_type: 'Direct Drive',
+    drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
     platforms: [
       'PC',
@@ -233,7 +233,7 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
     },
     price: 1099.00,
     torque: 21,
-    drive_type: 'Direct Drive',
+    drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
     platforms: [
       'PC',

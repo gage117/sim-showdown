@@ -12,6 +12,15 @@ model Brand {
   slug                String  @unique @db.VarChar(255)
   name                String  @unique @db.VarChar(255)
   wheelbases          Wheelbase[]
+  pedals              Pedal[]
+}
+
+model Platform {
+  id                  Int      @id @default(autoincrement())
+  slug                String  @unique @db.VarChar(255)
+  name                String  @unique @db.VarChar(255)
+  wheelbases          Wheelbase[] @relation("wheelbasePlatform")
+  pedals              Pedal[] @relation("pedalPlatform")
 }
 
 model Wheelbase {
@@ -22,7 +31,7 @@ model Wheelbase {
   brand               Brand   @relation(fields: [brandId], references: [id])
   price               Float
   torque              Float?
-  drive_type          String
+  drive_type          ForceFeedbackType
   swappable_wheels    Boolean
   platforms           Platform[] @relation("wheelbasePlatform")
   degrees_of_rotation String?
@@ -31,9 +40,61 @@ model Wheelbase {
   notes               String[]
 }
 
-model Platform {
+model Pedal {
   id                  Int      @id @default(autoincrement())
   slug                String  @unique @db.VarChar(255)
-  name                String  @unique @db.VarChar(255)
-  wheelbases          Wheelbase[] @relation("wheelbasePlatform")
+  model               String  @unique @db.VarChar(255)
+  brandId             Int
+  brand               Brand   @relation(fields: [brandId], references: [id])
+  type                PedalType
+  price               Float
+  throttleSensor      SensorType @default(NA)
+  brakeSensor         SensorType @default(NA)
+  brakeSensorLoadMax  Int?
+  brakeSensorLoadUnit ForceUnit?
+  clutchSensor        SensorType @default(NA)
+  heelPlateIncluded   Boolean
+  platforms           Platform[] @relation("pedalPlatform")
+  notes               String[]
+}
+
+enum PedalType {
+  THROTTLE
+  BRAKE
+  CLUTCH
+  THROTTLE_BRAKE
+  THREE_PEDAL
+  PROGRAMMABLE
+}
+
+enum SensorType {
+  HALL
+  POTENTIOMETER
+  LOAD_CELL
+  HYRDRAULIC_PRESSURE
+  INDUCTIVE
+  MAGNETIC
+  OPTICAL
+  OTHER
+  NA
+}
+
+enum ForceFeedbackType {
+  BELT
+  GEAR
+  DIRECT_DRIVE
+  OTHER
+  NA
+}
+
+enum ForceUnit {
+  NM
+  KG
+  PSI
+  BAR
+  LB
+  LBFT
+  LBIN
+  OTHER
+  NA
 }

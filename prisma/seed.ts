@@ -1,8 +1,9 @@
 const { PrismaClient, Platform } = require('@prisma/client')
-const slugify = require('slugify')
 const brands = require('./seedFiles/brands')
 const platforms = require('./seedFiles/platforms')
 const wheelbases = require('./seedFiles/wheelbases')
+const pedals = require('./seedFiles/pedals')
+const slugify = require('slugify')
 const prisma = new PrismaClient()
 
 async function seed() {
@@ -50,6 +51,24 @@ async function seed() {
           connect: platformIds.map(id => ({ id })),
         },
         slug: slugify(wheelbase.model, { lower: true }),
+      },
+    })
+  }
+
+  console.log('Seeding pedals...');
+  for (const pedal of pedals) {
+    const platformIds = platformsFromDB.filter(platform => pedal.platforms.includes(platform.name)).map(platform => (platform.id))
+    await prisma.pedal.upsert({
+      where: { model: pedal.model },
+      update: {
+        slug: slugify(pedal.model, { lower: true }),
+      },
+      create: {
+        ...pedal,
+        platforms: {
+          connect: platformIds.map(id => ({ id })),
+        },
+        slug: slugify(pedal.model, { lower: true }),
       },
     })
   }

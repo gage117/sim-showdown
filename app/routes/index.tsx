@@ -3,8 +3,8 @@ import { Link as RemixLink } from "@remix-run/react";
 import {
   Button,
   ButtonGroup,
-  Container,
-  Typography
+  Typography,
+  Stack
 } from "@mui/material";
 import styled from "@emotion/styled";
 
@@ -22,19 +22,29 @@ const StyledLink = styled(RemixLink)`
 
 export default function Index() {
   return (
-    <Container>
-      <Typography variant="h1">Sim Showdown</Typography>
-      <ButtonGroup variant="contained" color="secondary">
-        <Button>
-          <StyledLink to="/wheelbases">Wheelbases</StyledLink>
-        </Button>
-        <Button>
-          <StyledLink to="/wheels">Wheels</StyledLink>
-        </Button>
-        <Button>
-          <StyledLink to="/pedals">Pedals</StyledLink>
-        </Button>
-      </ButtonGroup>
-    </Container>
+    <Stack
+      alignItems="center"
+      justifyContent="center"
+      spacing={5}
+    >
+      <Typography variant="h1" color="secondary" sx={{ marginTop: '50px'}}>Sim Showdown</Typography>
+      <Stack
+        alignItems="center"
+        spacing={2}
+      >
+        <Typography variant="h3">Compare:</Typography>
+        <ButtonGroup variant="contained" color="secondary">
+          <Button>
+            <StyledLink to="/wheelbases">Wheelbases</StyledLink>
+          </Button>
+          <Button>
+            <StyledLink to="/wheels">Wheels</StyledLink>
+          </Button>
+          <Button>
+            <StyledLink to="/pedals">Pedals</StyledLink>
+          </Button>
+        </ButtonGroup>
+      </Stack>
+    </Stack>
   );
 }

@@ -4,6 +4,7 @@ import { getWheelbases } from '~/models/wheelbase.server';
 import type { Wheelbase } from '~/types';
 import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef, GridRowsProp } from '@mui/x-data-grid';
+import { ForceFeedbackTypeLabels } from "~/types/enumMaps";
 
 const columns: GridColDef[] = [
   { field: 'model', headerName: 'Model', width: 200 },
@@ -19,7 +20,11 @@ const columns: GridColDef[] = [
      },
   },
   { field: 'torque', headerName: 'Torque (Nm)', width: 120, type: 'number', align: 'right' },
-  { field: 'drive_type', headerName: 'Drive Type', width: 150 },
+  { field: 'drive_type', headerName: 'Drive Type', width: 150,
+    valueFormatter: (params) => {
+      return ForceFeedbackTypeLabels[params.value]
+    }
+  },
   { field: 'swappable_wheels', headerName: 'Swappable Wheels', type: 'boolean', width: 150 },
   { field: 'platforms', headerName: 'Platforms', width: 170 },
   { field: 'degrees_of_rotation', headerName: 'Degrees of Rotation', width: 150 },

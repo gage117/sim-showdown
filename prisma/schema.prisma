@@ -12,6 +12,7 @@ model Brand {
   slug                String  @unique @db.VarChar(255)
   name                String  @unique @db.VarChar(255)
   wheelbases          Wheelbase[]
+  wheels              Wheel[]
   pedals              Pedal[]
 }
 
@@ -19,6 +20,7 @@ model Platform {
   id                  Int      @id @default(autoincrement())
   slug                String  @unique @db.VarChar(255)
   name                String  @unique @db.VarChar(255)
+  
   wheelbases          Wheelbase[] @relation("wheelbasePlatform")
   pedals              Pedal[] @relation("pedalPlatform")
 }
@@ -38,6 +40,22 @@ model Wheelbase {
   wheel_included      Boolean
   pedals_included     Boolean
   notes               String[]
+
+  wheels              Wheel[] @relation("wheelbaseWheel")
+}
+
+model Wheel {
+  id                  Int      @id @default(autoincrement())
+  slug                String  @unique @db.VarChar(255)
+  model               String  @unique @db.VarChar(255)
+  brandId             Int
+  brand               Brand   @relation(fields: [brandId], references: [id])
+  price               Float
+  diameter            Float
+  type                String?
+  material            String?
+
+  wheelbases          Wheelbase[] @relation("wheelbaseWheel")
 }
 
 model Pedal {

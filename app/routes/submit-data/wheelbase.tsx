@@ -15,6 +15,8 @@ import {
   InputLabel,
   Checkbox,
   FormControlLabel,
+  OutlinedInput,
+  InputAdornment,
 } from "@mui/material";
 import FreeSoloCreateOption from "~/components/FreeSoloCreateOption";
 import type {FreeSoloOptionType} from "~/components/FreeSoloCreateOption";
@@ -75,26 +77,28 @@ export default function WheelbaseForm() {
             inputLabel="Brand"
             required
           />
+          <InputLabel htmlFor="model">Model *</InputLabel>
           <TextField
             id="model"
             name="model"
-            label="Model"
             required
           />
-          <TextField
+          <InputLabel htmlFor="price">Price (USD) *</InputLabel>
+          <OutlinedInput
+            startAdornment={<InputAdornment position="start">$</InputAdornment>}
             id="price"
             name="price"
-            label="Price (USD)"
             type="number"
             inputProps={{
+              min: 0,
               step: 0.01,
             }}
             required
           />
+          <InputLabel htmlFor="torque">Torque (Nm)</InputLabel>
           <TextField
             id="torque"
             name="torque"
-            label="Torque (Nm)"
             type="number"
           />
           <InputLabel htmlFor="drive_type">Drive Type</InputLabel>
@@ -110,8 +114,8 @@ export default function WheelbaseForm() {
               </MenuItem>
             ))}
           </Select>
-          <FormControlLabel control={<Checkbox id="swappable_wheels" name="swappable_wheels" />} label="Swappable Wheels" />
           <DegreesOfRotation />
+          <FormControlLabel control={<Checkbox id="swappable_wheels" name="swappable_wheels" />} label="Swappable Wheels" />
           <FormControlLabel control={<Checkbox id="wheel_included" name="wheel_included" />} label="Wheel Included" />
           <FormControlLabel control={<Checkbox id="pedals_included" name="pedals_included" />} label="Pedals Included" />
           <InputLabel htmlFor="platforms">Platforms</InputLabel>
@@ -140,12 +144,13 @@ export default function WheelbaseForm() {
 function DegreesOfRotation() {
   const [inputDisabled, setInputDisabled] = useState<"number" | null>(null);
   
-  return (
+  return (<>
+    <InputLabel htmlFor="degrees_of_rotation">Degrees of Rotation</InputLabel>
     <Stack direction="row" alignItems='center' gap={2}>
       <TextField
         id="degrees_of_rotation"
         name="degrees_of_rotation"
-        label="Degrees of Rotation"
+        placeholder="900"
         type="number"
         disabled={inputDisabled === "number"}
         onChange={(event) => {
@@ -172,5 +177,5 @@ function DegreesOfRotation() {
         />
       } label="Infinite" />
     </Stack>
-  );
+  </>);
 }

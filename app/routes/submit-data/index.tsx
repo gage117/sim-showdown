@@ -1,7 +1,7 @@
 import {
   Button,
   ButtonGroup,
-  Container,
+  Stack,
   Typography
 } from "@mui/material";
 import { Link, Outlet } from "@remix-run/react";
@@ -14,8 +14,8 @@ const StyledLink = styled(Link)`
 
 export default function SubmitData() {
   return (
-    <Container>
-      <Typography variant="h1">Submit Data For:</Typography>
+    <Stack alignItems='center' gap={4} sx={{ margin: '40px auto'}}>
+      <Typography variant="h2" align="center">Submit Data For:</Typography>
       <ButtonGroup variant="contained" color="secondary">
         <Button>
           <StyledLink to="wheelbase">Wheelbases</StyledLink>
@@ -28,6 +28,6 @@ export default function SubmitData() {
         </Button>
       </ButtonGroup>
       <Outlet />
-    </Container>
+    </Stack>
   );
 }

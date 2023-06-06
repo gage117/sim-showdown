@@ -5,6 +5,7 @@ import type { Pedal } from '~/types';
 import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import { ForceUnitLabels, PedalTypeLabels, SensorLabels } from "~/types/enumMaps";
+import { Container } from "@mui/material";
 
 const columns: GridColDef[] = [
   { field: 'model', headerName: 'Model', width: 200 },
@@ -78,11 +79,12 @@ export default function PedalTable() {
   })
     
   return (
-    <div style={{ height: '100%', width: '100%' }}>
+    <Container style={{ margin: '20px auto' }}>
       <DataGrid
         rows={rows}
         columns={columns}
+        sx={{ maxHeight: '85vh'}}
       />
-    </div>
+    </Container>
   );
 }

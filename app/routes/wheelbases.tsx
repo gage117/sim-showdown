@@ -5,6 +5,7 @@ import type { Wheelbase } from '~/types';
 import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import { ForceFeedbackTypeLabels } from "~/types/enumMaps";
+import { Container } from "@mui/material";
 
 const columns: GridColDef[] = [
   { field: 'model', headerName: 'Model', width: 200 },
@@ -62,11 +63,12 @@ export default function WheelbaseTable() {
   })
     
   return (
-    <div style={{ height: '100%', width: '100%' }}>
+    <Container sx={{ margin: '20px auto'}}>
       <DataGrid
         rows={rows}
         columns={columns}
+        sx={{ maxHeight: '85vh'}}
       />
-    </div>
+    </Container>
   );
 }

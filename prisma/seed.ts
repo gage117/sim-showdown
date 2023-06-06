@@ -40,17 +40,18 @@ async function seed() {
   console.log('Seeding wheelbases...');
   for (const wheelbase of wheelbases) {
     const platformIds = platformsFromDB.filter(platform => wheelbase.platforms.includes(platform.name)).map(platform => (platform.id))
+    const slug = slugify(`${wheelbase.model}_${wheelbase.brand.connect.name}`, { lower: true })
     await prisma.wheelbase.upsert({
-      where: { model: wheelbase.model },
+      where: { slug },
       update: {
-        slug: slugify(wheelbase.model, { lower: true }),
+        slug,
       },
       create: {
         ...wheelbase,
         platforms: {
           connect: platformIds.map(id => ({ id })),
         },
-        slug: slugify(wheelbase.model, { lower: true }),
+        slug,
       },
     })
   }
@@ -58,17 +59,18 @@ async function seed() {
   console.log('Seeding pedals...');
   for (const pedal of pedals) {
     const platformIds = platformsFromDB.filter(platform => pedal.platforms.includes(platform.name)).map(platform => (platform.id))
+    const slug = slugify(`${pedal.model}_${pedal.brand.connect.name}`, { lower: true })
     await prisma.pedal.upsert({
-      where: { model: pedal.model },
+      where: { slug },
       update: {
-        slug: slugify(pedal.model, { lower: true }),
+        slug,
       },
       create: {
         ...pedal,
         platforms: {
           connect: platformIds.map(id => ({ id })),
         },
-        slug: slugify(pedal.model, { lower: true }),
+        slug,
       },
     })
   }

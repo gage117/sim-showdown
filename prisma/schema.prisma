@@ -28,7 +28,7 @@ model Platform {
 model Wheelbase {
   id                  Int      @id @default(autoincrement())
   slug                String  @unique @db.VarChar(255)
-  model               String  @unique @db.VarChar(255)
+  model               String  @db.VarChar(255)
   brandId             Int
   brand               Brand   @relation(fields: [brandId], references: [id])
   price               Float
@@ -47,7 +47,7 @@ model Wheelbase {
 model Wheel {
   id                  Int      @id @default(autoincrement())
   slug                String  @unique @db.VarChar(255)
-  model               String  @unique @db.VarChar(255)
+  model               String  @db.VarChar(255)
   brandId             Int
   brand               Brand   @relation(fields: [brandId], references: [id])
   price               Float
@@ -61,7 +61,7 @@ model Wheel {
 model Pedal {
   id                     Int      @id @default(autoincrement())
   slug                   String  @unique @db.VarChar(255)
-  model                  String  @unique @db.VarChar(255)
+  model                  String  @db.VarChar(255)
   brandId                Int
   brand                  Brand   @relation(fields: [brandId], references: [id])
   type                   PedalType

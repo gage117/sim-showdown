@@ -6,15 +6,16 @@ const {
 } = require('@prisma/client');
 
 export const SensorLabels = {
-  [SensorType.NA]: 'N/A',
+  [SensorType.POTENTIOMETER]: 'Potentiometer',
   [SensorType.HALL]: 'Hall Effect',
   [SensorType.LOAD_CELL]: 'Load Cell',
   [SensorType.HYDRAULIC_PRESSURE]: 'Hydraulic',
-  [SensorType.POTENTIOMETER]: 'Potentiometer',
   [SensorType.INDUCTIVE]: 'Inductive',
   [SensorType.MAGNETIC]: 'Magnetic',
   [SensorType.OPTICAL]: 'Optical',
   [SensorType.OTHER]: 'Other',
+  [SensorType.NONE]: 'None',
+  [SensorType.NA]: 'Unknown',
 };
 
 export const ForceUnitLabels = {

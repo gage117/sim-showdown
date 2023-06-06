@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import { InputLabel } from '@mui/material';
 
 export type FreeSoloOptionType = {
   name: string;
@@ -12,7 +13,8 @@ const filter = createFilterOptions<FreeSoloOptionType>();
 export default function FreeSoloCreateOption({ options, inputName, inputLabel, required }: { options: FreeSoloOptionType[], inputName: string, inputLabel: string, required?: boolean }) {
   const [value, setValue] = useState<FreeSoloOptionType | null>(null);
 
-  return (
+  return (<>
+    <InputLabel htmlFor={inputName}>{inputLabel}{required ? ' *' : ''}</InputLabel>
     <Autocomplete
       value={value}
       onChange={(event, newValue) => {
@@ -64,8 +66,8 @@ export default function FreeSoloCreateOption({ options, inputName, inputLabel, r
       renderOption={(props, option) => <li {...props}>{option.name}</li>}
       freeSolo
       renderInput={(params) => (
-        <TextField {...params} name={inputName} label={inputLabel} required={required} />
+        <TextField {...params} name={inputName} required={required} />
       )}
     />
-  );
+  </>);
 }

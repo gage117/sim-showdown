@@ -63,3 +63,18 @@ export type Pedal = {
   platforms: Platform[];
   notes?: string[];
 };
+
+export type NewPedal = {
+  model: string;
+  brand: Brand['name'];
+  type: typeof PedalType;
+  price: number;
+  throttle_sensor: typeof SensorType;
+  brake_sensor: typeof SensorType;
+  brake_sensor_load_max?: number;
+  brake_sensor_load_unit?: typeof ForceUnit;
+  clutch_sensor: typeof SensorType;
+  heel_plate_included: boolean;
+  platforms: Platform['name'][];
+  notes?: string[];
+};

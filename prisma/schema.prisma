@@ -95,6 +95,7 @@ enum SensorType {
   OPTICAL
   OTHER
   NA
+  NONE
 }
 
 enum ForceFeedbackType {

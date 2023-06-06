@@ -63,7 +63,7 @@ export default function WheelbaseTable() {
   })
     
   return (
-    <Container sx={{ margin: '20px auto'}}>
+    <Container maxWidth="xl" sx={{ margin: '20px auto'}}>
       <DataGrid
         rows={rows}
         columns={columns}

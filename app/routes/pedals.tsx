@@ -79,7 +79,7 @@ export default function PedalTable() {
   })
     
   return (
-    <Container style={{ margin: '20px auto' }}>
+    <Container maxWidth="xl" style={{ margin: '20px auto' }}>
       <DataGrid
         rows={rows}
         columns={columns}

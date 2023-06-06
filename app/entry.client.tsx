@@ -1,7 +1,7 @@
 import { RemixBrowser } from "@remix-run/react";
 import * as React from "react";
 import { hydrateRoot } from "react-dom/client";
-import { CacheProvider } from '@emotion/react';
+import { CacheProvider, Global, css } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import ClientStyleContext from './src/ClientStyleContext';
@@ -39,6 +39,19 @@ const hydrate = () => {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
+            <Global
+              styles={css`
+                input[type=number] {
+                  appearance: textfield !important;
+                  -moz-appearance: textfield !important;
+                }
+                input::-webkit-outer-spin-button,
+                input::-webkit-inner-spin-button {
+                  -webkit-appearance: none;
+                  margin: 0;
+                }
+              `}
+            />
             <RemixBrowser />
           </ThemeProvider>
         </ClientCacheProvider>

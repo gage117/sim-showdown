@@ -36,7 +36,7 @@ model Wheelbase {
   drive_type          ForceFeedbackType
   swappable_wheels    Boolean
   platforms           Platform[] @relation("wheelbasePlatform")
-  degrees_of_rotation String?
+  degrees_of_rotation String? @default("N/A")
   wheel_included      Boolean
   pedals_included     Boolean
   notes               String[]

@@ -1,4 +1,4 @@
-import { ForceFeedbackType } from "@prisma/client";
+import type { ForceFeedbackType } from "@prisma/client";
 
 export type Brand = {
   id: number;
@@ -34,7 +34,7 @@ export type NewWheelbase = {
   model: string;
   brand: Brand['name'];
   price: number;
-  torque: number;
+  torque?: number;
   drive_type: ForceFeedbackType;
   swappable_wheels: boolean;
   platforms: Platform['name'][];

@@ -7,12 +7,11 @@ import { getPlatforms } from "~/models/platform.server"
 import { Form, useLoaderData } from "@remix-run/react";
 import {
   Container,
-  Grid,
+  Stack,
   TextField,
   Button,
   Select,
   MenuItem,
-  NativeSelect,
   InputLabel,
   Checkbox,
   FormControlLabel,
@@ -32,7 +31,7 @@ export const action = async ({ request }: ActionArgs) => {
     model: bodyObj.model as string,
     brand: bodyObj.brand as Brand['name'],
     price: parseInt(bodyObj.price as string),
-    torque: parseInt(bodyObj.torque as string),
+    torque: bodyObj.torque ? parseInt(bodyObj.torque as string) : undefined,
     drive_type: bodyObj.drive_type as ForceFeedbackType,
     swappable_wheels: bodyObj.swappable_wheels === "on",
     degrees_of_rotation: bodyObj.degrees_of_rotation as string,
@@ -66,87 +65,73 @@ export default function WheelbaseForm() {
   const driveTypeOptions = Object.entries(ForceFeedbackTypeLabels).map(([key, value]) => ({ name: value, inputValue: key }));
   
   return (
-    <Container>
-      <h1>Wheelbase Form</h1>
+    <Container maxWidth='xs' sx={{ margin: '70px auto'}}>
+      <h1>Add a Wheelbase</h1>
       <Form method="post">
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <FreeSoloCreateOption
-              options={brandInputOptions}
-              inputName="brand"
-              inputLabel="Brand"
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="model"
-              name="model"
-              label="Model"
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="price"
-              name="price"
-              label="Price (USD)"
-              type="number"
-              inputProps={{
-                step: 0.01,
-              }}
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="torque"
-              name="torque"
-              label="Torque (Nm)"
-              type="number"
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <InputLabel htmlFor="drive_type">Drive Type</InputLabel>
-            <NativeSelect id="drive_type" name="drive_type" required>
-              {driveTypeOptions.map((option) => (
-                <option key={option.inputValue} value={option.inputValue}>
-                  {option.name}
-                </option>
-              ))}
-            </NativeSelect>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControlLabel control={<Checkbox id="swappable_wheels" name="swappable_wheels" />} label="Swappable Wheels" />
-          </Grid>
+        <Stack spacing={2}>
+          <FreeSoloCreateOption
+            options={brandInputOptions}
+            inputName="brand"
+            inputLabel="Brand"
+            required
+          />
+          <TextField
+            id="model"
+            name="model"
+            label="Model"
+            required
+          />
+          <TextField
+            id="price"
+            name="price"
+            label="Price (USD)"
+            type="number"
+            inputProps={{
+              step: 0.01,
+            }}
+            required
+          />
+          <TextField
+            id="torque"
+            name="torque"
+            label="Torque (Nm)"
+            type="number"
+          />
+          <InputLabel htmlFor="drive_type">Drive Type</InputLabel>
+          <Select
+            id="drive_type"
+            name="drive_type"
+            required
+            defaultValue={driveTypeOptions[0].inputValue}
+          >
+            {driveTypeOptions.map((option) => (
+              <MenuItem key={option.inputValue} value={option.inputValue}>
+                {option.name}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormControlLabel control={<Checkbox id="swappable_wheels" name="swappable_wheels" />} label="Swappable Wheels" />
           <DegreesOfRotation />
-          <Grid item xs={12}>
-            <FormControlLabel control={<Checkbox id="wheel_included" name="wheel_included" />} label="Wheel Included" />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControlLabel control={<Checkbox id="pedals_included" name="pedals_included" />} label="Pedals Included" />
-          </Grid>
-          <Grid item xs={12}>
-            <InputLabel htmlFor="platforms">Platforms</InputLabel>
-            <Select
-              id="platforms"
-              name="platforms"
-              label="Platforms"
-              multiple
-              required
-              renderValue={(selected) => (selected as string[]).join(', ')}
-              defaultValue={['PC']}
-            >
-              {response.platforms.map((platform) => (
-                <MenuItem key={platform.name} value={platform.name}>
-                  {platform.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </Grid>
-        </Grid>
-        <Button type="submit">Submit</Button>
+          <FormControlLabel control={<Checkbox id="wheel_included" name="wheel_included" />} label="Wheel Included" />
+          <FormControlLabel control={<Checkbox id="pedals_included" name="pedals_included" />} label="Pedals Included" />
+          <InputLabel htmlFor="platforms">Platforms</InputLabel>
+          <Select
+            id="platforms"
+            name="platforms"
+            label="Platforms"
+            multiple
+            required
+            renderValue={(selected) => (selected as string[]).join(', ')}
+            defaultValue={['PC']}
+          >
+            {response.platforms.map((platform) => (
+              <MenuItem key={platform.name} value={platform.name}>
+                {platform.name}
+              </MenuItem>
+            ))}
+          </Select>
+          <Button color="secondary" variant="contained" type="submit">Submit</Button>
+        </Stack>
       </Form>
     </Container>
   );
@@ -156,7 +141,7 @@ function DegreesOfRotation() {
   const [inputDisabled, setInputDisabled] = useState<"number" | null>(null);
   
   return (
-    <Grid item xs={12}>
+    <Stack direction="row" alignItems='center' gap={2}>
       <TextField
         id="degrees_of_rotation"
         name="degrees_of_rotation"
@@ -169,6 +154,7 @@ function DegreesOfRotation() {
           }
           return event;
         }}
+        sx={{ flexGrow: 1 }}
       />       
       <FormControlLabel control={
         <Checkbox
@@ -185,6 +171,6 @@ function DegreesOfRotation() {
           }}
         />
       } label="Infinite" />
-    </Grid>
+    </Stack>
   );
 }

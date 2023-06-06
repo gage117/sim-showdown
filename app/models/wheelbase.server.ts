@@ -25,6 +25,7 @@ export async function getWheelbaseBySlug(slug: string) {
 }
 
 export async function createWheelbase(data: NewWheelbase) {
+  if (!data.degrees_of_rotation) data.degrees_of_rotation = 'N/A';
   return await prisma.wheelbase.create({
     data: {
       ...data,

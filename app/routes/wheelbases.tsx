@@ -19,7 +19,11 @@ const columns: GridColDef[] = [
       return `$${params.value.toFixed(2)}`
      },
   },
-  { field: 'torque', headerName: 'Torque (Nm)', width: 120, type: 'number', align: 'right' },
+  { field: 'torque', headerName: 'Torque (Nm)', width: 120, type: 'number', align: 'right',
+    valueFormatter: (params) => {
+      return params.value ? params.value : 'N/A'
+    }
+  },
   { field: 'drive_type', headerName: 'Drive Type', width: 150,
     valueFormatter: (params) => {
       return ForceFeedbackTypeLabels[params.value]

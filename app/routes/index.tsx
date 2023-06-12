@@ -7,6 +7,7 @@ import {
   Stack
 } from "@mui/material";
 import styled from "@emotion/styled";
+import ROUTES from "~/ROUTES";
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -35,13 +36,19 @@ export default function Index() {
         <Typography variant="h3">Compare:</Typography>
         <ButtonGroup variant="contained" color="secondary">
           <Button>
-            <StyledLink to="/wheelbases">Wheelbases</StyledLink>
+            <StyledLink to={ROUTES.WHEELBASES.path}>{ROUTES.WHEELBASES.name}</StyledLink>
           </Button>
           <Button>
-            <StyledLink to="/wheels">Wheels</StyledLink>
+            <StyledLink to={ROUTES.WHEELS.path}>{ROUTES.WHEELS.name}</StyledLink>
           </Button>
           <Button>
-            <StyledLink to="/pedals">Pedals</StyledLink>
+            <StyledLink to={ROUTES.PEDALS.path}>{ROUTES.PEDALS.name}</StyledLink>
+          </Button>
+          <Button>
+            <StyledLink to={ROUTES.SHIFTERS.path}>{ROUTES.SHIFTERS.name}</StyledLink>
+          </Button>
+          <Button>
+            <StyledLink to={ROUTES.HANDBRAKES.path}>{ROUTES.HANDBRAKES.name}</StyledLink>
           </Button>
         </ButtonGroup>
       </Stack>

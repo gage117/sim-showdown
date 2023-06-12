@@ -1,6 +1,7 @@
 const { Pedal, PedalType, SensorType, ForceUnit } = require('@prisma/client')
 
 const pedalSeeds: typeof Pedal[] = [
+  // Asetek
   {
     model: 'Invicta',
     brand: {
@@ -20,6 +21,95 @@ const pedalSeeds: typeof Pedal[] = [
       'PC',
     ]
   },
+  // Fanatec
+  {
+    model: 'CSL',
+    brand: {
+      connect: {
+        name: 'Fanatec',
+      },
+    },
+    type: PedalType.THROTTLE_BRAKE,
+    price: 79.95,
+    throttle_sensor: SensorType.HALL,
+    brake_sensor: SensorType.HALL,
+    brake_sensor_load_max: 0,
+    brake_sensor_load_unit: ForceUnit.NA,
+    clutch_sensor: SensorType.NONE,
+    heel_plate_included: true,
+    platforms: [
+      'PC',
+      'Xbox',
+      'Playstation'
+    ]
+  },
+  {
+    model: 'CSL LC',
+    brand: {
+      connect: {
+        name: 'Fanatec',
+      },
+    },
+    type: PedalType.THREE_PEDAL,
+    price: 199.95,
+    throttle_sensor: SensorType.HALL,
+    brake_sensor: SensorType.LOAD_CELL,
+    brake_sensor_load_max: 0,
+    brake_sensor_load_unit: ForceUnit.NA,
+    clutch_sensor: SensorType.HALL,
+    heel_plate_included: true,
+    platforms: [
+      'PC',
+      'Xbox',
+      'Playstation'
+    ]
+  },
+  {
+    model: 'CSL Elite V2',
+    brand: {
+      connect: {
+        name: 'Fanatec',
+      },
+    },
+    type: PedalType.THREE_PEDAL,
+    price: 299.95,
+    throttle_sensor: SensorType.HALL,
+    brake_sensor: SensorType.LOAD_CELL,
+    brake_sensor_load_max: 90,
+    brake_sensor_load_unit: ForceUnit.KG,
+    clutch_sensor: SensorType.HALL,
+    heel_plate_included: true,
+    platforms: [
+      'PC',
+      'Xbox',
+      'Playstation'
+    ]
+  },
+  {
+    model: 'ClubSport V3',
+    brand: {
+      connect: {
+        name: 'Fanatec',
+      },
+    },
+    type: PedalType.THREE_PEDAL,
+    price: 399.95,
+    throttle_sensor: SensorType.HALL,
+    brake_sensor: SensorType.LOAD_CELL,
+    brake_sensor_load_max: 90,
+    brake_sensor_load_unit: ForceUnit.KG,
+    clutch_sensor: SensorType.HALL,
+    heel_plate_included: true,
+    platforms: [
+      'PC',
+      'Xbox',
+      'Playstation'
+    ],
+    notes: [
+      'Vibration motor on Throttle and Brake',
+    ]
+  },
+  // Logitech
   {
     model: 'Pro',
     brand: {
@@ -41,6 +131,7 @@ const pedalSeeds: typeof Pedal[] = [
       'Playstation'
     ]
   },
+  // Simucube
   {
     model: 'ActivePedal',
     brand: {

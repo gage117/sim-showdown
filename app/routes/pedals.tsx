@@ -2,7 +2,7 @@ import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { getPedals } from '~/models/pedal.server';
 import type { Pedal } from '~/types';
-import { DataGrid } from '@mui/x-data-grid';
+import StyledDataGrid from "~/components/StyledDataGrid";
 import type { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import { ForceUnitLabels, PedalTypeLabels, SensorLabels } from "~/types/enumMaps";
 import { Container } from "@mui/material";
@@ -80,7 +80,7 @@ export default function PedalTable() {
     
   return (
     <Container maxWidth="xl" style={{ margin: '20px auto' }}>
-      <DataGrid
+      <StyledDataGrid
         rows={rows}
         columns={columns}
         sx={{ maxHeight: '85vh'}}

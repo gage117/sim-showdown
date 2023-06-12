@@ -2,10 +2,10 @@ import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { getWheelbases } from '~/models/wheelbase.server';
 import type { Wheelbase } from '~/types';
-import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef, GridRowsProp } from '@mui/x-data-grid';
 import { ForceFeedbackTypeLabels } from "~/types/enumMaps";
 import { Container } from "@mui/material";
+import StyledDataGrid from "~/components/StyledDataGrid";
 
 const columns: GridColDef[] = [
   { field: 'model', headerName: 'Model', width: 200 },
@@ -64,10 +64,9 @@ export default function WheelbaseTable() {
     
   return (
     <Container maxWidth="xl" sx={{ margin: '20px auto'}}>
-      <DataGrid
+      <StyledDataGrid
         rows={rows}
         columns={columns}
-        sx={{ maxHeight: '85vh'}}
       />
     </Container>
   );

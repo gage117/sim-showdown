@@ -1,11 +1,15 @@
-const { Wheelbase, ForceFeedbackType } = require('@prisma/client')
+import type { Wheelbase } from '@prisma/client';
+import type { SeedPartial } from './seedPartial';
+import { ForceFeedbackType } from '@prisma/client'
 
-const wheelbaseSeeds: Partial<typeof Wheelbase> = [
+type WheelbaseSeed = Partial<Wheelbase> & SeedPartial
+
+const wheelbaseSeeds: WheelbaseSeed[] = [
   {
     model: 'Pro',
     brand: {
       connect: {
-        name: 'Logitech',
+        name: 'Fanatec',
       },
     },
     price: 999.99,
@@ -244,4 +248,4 @@ const wheelbaseSeeds: Partial<typeof Wheelbase> = [
   },
 ]
 
-module.exports = wheelbaseSeeds
+export default wheelbaseSeeds

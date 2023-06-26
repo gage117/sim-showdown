@@ -1,6 +1,6 @@
-const { Brand } = require('@prisma/client')
+import type { Brand } from '@prisma/client'
 
-const brandSeeds: Partial<typeof Brand> = [
+const brandSeeds: Partial<Brand>[] = [
   {
     name: 'Ascher Racing',
   },
@@ -36,4 +36,4 @@ const brandSeeds: Partial<typeof Brand> = [
   }
 ]
 
-module.exports = brandSeeds
+export default brandSeeds

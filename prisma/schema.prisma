@@ -14,6 +14,7 @@ model Brand {
   wheelbases          Wheelbase[]
   wheels              Wheel[]
   pedals              Pedal[]
+  shifters            Shifter[]
 }
 
 model Platform {
@@ -21,49 +22,50 @@ model Platform {
   slug                String  @unique @db.VarChar(255)
   name                String  @unique @db.VarChar(255)
   
-  wheelbases          Wheelbase[] @relation("wheelbasePlatform")
-  pedals              Pedal[] @relation("pedalPlatform")
+  wheelbases          Wheelbase[]
+  pedals              Pedal[]
+  shifters            Shifter[]
 }
 
 model Wheelbase {
   id                  Int      @id @default(autoincrement())
   slug                String  @unique @db.VarChar(255)
   model               String  @db.VarChar(255)
-  brandId             Int
-  brand               Brand   @relation(fields: [brandId], references: [id])
+  brandSlug           String  @db.VarChar(255)
+  brand               Brand   @relation(fields: [brandSlug], references: [slug])
   price               Float
   torque              Float?
   drive_type          ForceFeedbackType
   swappable_wheels    Boolean
-  platforms           Platform[] @relation("wheelbasePlatform")
+  platforms           Platform[]
   degrees_of_rotation String? @default("N/A")
   wheel_included      Boolean
   pedals_included     Boolean
   notes               String[]
 
-  wheels              Wheel[] @relation("wheelbaseWheel")
+  wheels              Wheel[]
 }
 
 model Wheel {
   id                  Int      @id @default(autoincrement())
   slug                String  @unique @db.VarChar(255)
   model               String  @db.VarChar(255)
-  brandId             Int
-  brand               Brand   @relation(fields: [brandId], references: [id])
+  brandSlug           String  @db.VarChar(255)
+  brand               Brand   @relation(fields: [brandSlug], references: [slug])
   price               Float
   diameter            Float
   type                String?
   material            String?
 
-  wheelbases          Wheelbase[] @relation("wheelbaseWheel")
+  wheelbases          Wheelbase[]
 }
 
 model Pedal {
   id                     Int      @id @default(autoincrement())
   slug                   String  @unique @db.VarChar(255)
   model                  String  @db.VarChar(255)
-  brandId                Int
-  brand                  Brand   @relation(fields: [brandId], references: [id])
+  brandSlug           String  @db.VarChar(255)
+  brand               Brand   @relation(fields: [brandSlug], references: [slug])
   type                   PedalType
   price                  Float
   throttle_sensor        SensorType @default(NA)
@@ -72,8 +74,24 @@ model Pedal {
   brake_sensor_load_unit ForceUnit?
   clutch_sensor          SensorType @default(NA)
   heel_plate_included    Boolean
-  platforms              Platform[] @relation("pedalPlatform")
+  platforms              Platform[]
   notes                  String[]
+}
+
+model Shifter {
+  id                  Int      @id @default(autoincrement())
+  slug                String  @unique @db.VarChar(255)
+  model               String  @db.VarChar(255)
+  brandSlug           String  @db.VarChar(255)
+  brand               Brand   @relation(fields: [brandSlug], references: [slug])
+  price               Float
+  type                ShifterType
+  speeds              ShifterSpeedType[]
+  throw               ShifterThrowType[]
+  proprietary         Boolean
+  sensorType          SensorType @default(NA)
+  platforms           Platform[]
+  notes               String[]
 }
 
 enum PedalType {
@@ -96,6 +114,30 @@ enum SensorType {
   OTHER
   NA
   NONE
+}
+
+enum ShifterType {
+  HPATTERN
+  SEQUENTIAL
+  SEQUENTIAL_HPATTERN
+  OTHER
+}
+
+enum ShifterSpeedType {
+  FIVE_PLUS_REVERSE
+  SIX_PLUS_REVERSE
+  SEVEN_PLUS_REVERSE
+  EIGHT_PLUS_REVERSE
+  SEQUENTIAL
+  OTHER
+}
+
+enum ShifterThrowType {
+  SHORT
+  MEDIUM
+  LONG
+  ADJUSTABLE
+  OTHER
 }
 
 enum ForceFeedbackType {

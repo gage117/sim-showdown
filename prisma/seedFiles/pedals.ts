@@ -1,6 +1,10 @@
-const { Pedal, PedalType, SensorType, ForceUnit } = require('@prisma/client')
+import type { Pedal } from '@prisma/client';
+import type { SeedPartial } from './seedPartial';
+import { PedalType, ForceUnit, SensorType } from '@prisma/client'
 
-const pedalSeeds: typeof Pedal[] = [
+type PedalSeed = Partial<Pedal> & SeedPartial
+
+const pedalSeeds: PedalSeed[] = [
   // Asetek
   {
     model: 'Invicta',
@@ -156,4 +160,4 @@ const pedalSeeds: typeof Pedal[] = [
   },
 ]
 
-module.exports = pedalSeeds
+export default pedalSeeds

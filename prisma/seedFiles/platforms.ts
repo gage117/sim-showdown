@@ -1,4 +1,6 @@
-const platformSeeds: Partial<typeof Platform>[] = [
+import type { Platform } from '@prisma/client'
+
+const platformSeeds: Partial<Platform>[] = [
   {
     name: 'PC',
   },
@@ -10,4 +12,4 @@ const platformSeeds: Partial<typeof Platform>[] = [
   },
 ]
 
-module.exports = platformSeeds
+export default platformSeeds

@@ -11,10 +11,12 @@ model Brand {
   id                  Int      @id @default(autoincrement())
   slug                String  @unique @db.VarChar(255)
   name                String  @unique @db.VarChar(255)
+  
   wheelbases          Wheelbase[]
   wheels              Wheel[]
   pedals              Pedal[]
   shifters            Shifter[]
+  handbrakes          Handbrake[]
 }
 
 model Platform {
@@ -25,6 +27,7 @@ model Platform {
   wheelbases          Wheelbase[]
   pedals              Pedal[]
   shifters            Shifter[]
+  handbrakes          Handbrake[]
 }
 
 model Wheelbase {
@@ -89,6 +92,19 @@ model Shifter {
   speeds              ShifterSpeedType[]
   throw               ShifterThrowType[]
   proprietary         Boolean
+  sensorType          SensorType @default(NA)
+  platforms           Platform[]
+  notes               String[]
+}
+
+model Handbrake {
+  id                  Int      @id @default(autoincrement())
+  slug                String  @unique @db.VarChar(255)
+  model               String  @db.VarChar(255)
+  brandSlug           String  @db.VarChar(255)
+  brand               Brand   @relation(fields: [brandSlug], references: [slug])
+  price               Float
+  type                String?
   sensorType          SensorType @default(NA)
   platforms           Platform[]
   notes               String[]

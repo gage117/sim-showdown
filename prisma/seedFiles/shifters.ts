@@ -97,7 +97,7 @@ const shifterSeeds: Prisma.ShifterCreateInput[] = [
   })
 ]
 
-async function seedWShifters() {
+async function seedShifters() {
   console.log('Seeding shifters...');
   try {
     for (const shifter of shifterSeeds) {
@@ -117,4 +117,4 @@ async function seedWShifters() {
   }
 }
 
-export default seedWShifters
+export default seedShifters

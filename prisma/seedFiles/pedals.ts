@@ -1,12 +1,19 @@
-import type { Pedal } from '@prisma/client';
-import type { SeedPartial } from './seedPartial';
-import { PedalType, ForceUnit, SensorType } from '@prisma/client'
+import type { Prisma } from '@prisma/client'
+import { PedalType, SensorType, ForceUnit } from '@prisma/client';
+import prisma from './prisma.ts';
+import { slugifyForDB } from './seedUtils.ts';
 
-type PedalSeed = Partial<Pedal> & SeedPartial
+function PedalSeed(pedal: Omit<Prisma.PedalCreateInput, 'slug'>): Prisma.PedalCreateInput {
+  if (!pedal.brand.connect) throw new Error('PedalSeed requires a brand.connect property')
+  return {
+    ...pedal,
+    slug: slugifyForDB(`${pedal.model}_${pedal.brand.connect.name}`)
+  }
+}
 
-const pedalSeeds: PedalSeed[] = [
+const pedalSeeds: Prisma.PedalCreateInput[] = [
   // Asetek
-  {
+  PedalSeed({
     model: 'Invicta',
     brand: {
       connect: {
@@ -21,12 +28,14 @@ const pedalSeeds: PedalSeed[] = [
     brake_sensor_load_unit: ForceUnit.KG,
     clutch_sensor: SensorType.NA,
     heel_plate_included: false,
-    platforms: [
-      'PC',
-    ]
-  },
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    }
+  }),
   // Fanatec
-  {
+  PedalSeed({
     model: 'CSL',
     brand: {
       connect: {
@@ -41,13 +50,13 @@ const pedalSeeds: PedalSeed[] = [
     brake_sensor_load_unit: ForceUnit.NA,
     clutch_sensor: SensorType.NONE,
     heel_plate_included: true,
-    platforms: [
-      'PC',
-      'Xbox',
-      'Playstation'
-    ]
-  },
-  {
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    }
+  }),
+  PedalSeed({
     model: 'CSL LC',
     brand: {
       connect: {
@@ -62,13 +71,13 @@ const pedalSeeds: PedalSeed[] = [
     brake_sensor_load_unit: ForceUnit.NA,
     clutch_sensor: SensorType.HALL,
     heel_plate_included: true,
-    platforms: [
-      'PC',
-      'Xbox',
-      'Playstation'
-    ]
-  },
-  {
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    }
+  }),
+  PedalSeed({
     model: 'CSL Elite V2',
     brand: {
       connect: {
@@ -83,13 +92,13 @@ const pedalSeeds: PedalSeed[] = [
     brake_sensor_load_unit: ForceUnit.KG,
     clutch_sensor: SensorType.HALL,
     heel_plate_included: true,
-    platforms: [
-      'PC',
-      'Xbox',
-      'Playstation'
-    ]
-  },
-  {
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    }
+  }),
+  PedalSeed({
     model: 'ClubSport V3',
     brand: {
       connect: {
@@ -104,17 +113,17 @@ const pedalSeeds: PedalSeed[] = [
     brake_sensor_load_unit: ForceUnit.KG,
     clutch_sensor: SensorType.HALL,
     heel_plate_included: true,
-    platforms: [
-      'PC',
-      'Xbox',
-      'Playstation'
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    },
     notes: [
       'Vibration motor on Throttle and Brake',
     ]
-  },
+  }),
   // Logitech
-  {
+  PedalSeed({
     model: 'Pro',
     brand: {
       connect: {
@@ -129,14 +138,14 @@ const pedalSeeds: PedalSeed[] = [
     brake_sensor_load_unit: ForceUnit.KG,
     clutch_sensor: SensorType.HALL,
     heel_plate_included: true,
-    platforms: [
-      'PC',
-      'Xbox',
-      'Playstation'
-    ]
-  },
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    }
+  }),
   // Simucube
-  {
+  PedalSeed({
     model: 'ActivePedal',
     brand: {
       connect: {
@@ -151,13 +160,35 @@ const pedalSeeds: PedalSeed[] = [
     brake_sensor_load_unit: ForceUnit.KG,
     clutch_sensor: SensorType.LOAD_CELL,
     heel_plate_included: false,
-    platforms: [
-      'PC',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    },
     notes: [
       'Single pedal',
     ]
-  },
+  }),
 ]
 
-export default pedalSeeds
+async function seedPedals() {
+  console.log('Seeding pedals...');
+  try {
+    for (const pedal of pedalSeeds) {
+      await prisma.pedal.upsert({
+        where: { slug: pedal.slug },
+        update: {
+          ...pedal
+        },
+        create: {
+          ...pedal
+        },
+      })
+    }
+    console.log('Pedals seeded!')
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export default seedPedals

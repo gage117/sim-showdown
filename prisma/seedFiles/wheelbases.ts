@@ -1,11 +1,18 @@
-import type { Wheelbase } from '@prisma/client';
-import type { SeedPartial } from './seedPartial';
 import { ForceFeedbackType } from '@prisma/client'
+import type { Prisma } from '@prisma/client'
+import prisma from './prisma.ts';
+import { slugifyForDB } from './seedUtils.ts';
 
-type WheelbaseSeed = Partial<Wheelbase> & SeedPartial
+function WheelbaseSeed(wheelbase: Omit<Prisma.WheelbaseCreateInput, 'slug'>): Prisma.WheelbaseCreateInput {
+  if (!wheelbase.brand.connect) throw new Error('WheelbaseSeed requires a brand.connect property')
+  return {
+    ...wheelbase,
+    slug: slugifyForDB(`${wheelbase.model}_${wheelbase.brand.connect.name}`)
+  }
+}
 
-const wheelbaseSeeds: WheelbaseSeed[] = [
-  {
+const wheelbaseSeeds: Prisma.WheelbaseCreateInput[] = [
+  WheelbaseSeed({
     model: 'Pro',
     brand: {
       connect: {
@@ -16,16 +23,18 @@ const wheelbaseSeeds: WheelbaseSeed[] = [
     torque: 10,
     drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: false,
-    platforms: [
-      'PC',
-      'Playstation',
-      'Xbox',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'},
+        { name: 'Playstation'},
+        { name: 'Xbox'},
+      ]
+    },
     degrees_of_rotation: 'Infinite',
     wheel_included: true,
     pedals_included: false,
-  },
-  {
+  }),
+  WheelbaseSeed({
     model: 'CSL DD (5Nm)',
     brand: {
       connect: {
@@ -36,15 +45,17 @@ const wheelbaseSeeds: WheelbaseSeed[] = [
     torque: 5,
     drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
-    platforms: [
-      'PC',
-      'Xbox',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'},
+        { name: 'Xbox'},
+      ]
+    },
     degrees_of_rotation: 'Infinite',
     wheel_included: false,
     pedals_included: false,
-  },
-  {
+  }),
+  WheelbaseSeed({
     model: 'CSL DD (8Nm)',
     brand: {
       connect: {
@@ -55,15 +66,17 @@ const wheelbaseSeeds: WheelbaseSeed[] = [
     torque: 8,
     drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
-    platforms: [
-      'PC',
-      'Xbox',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'},
+        { name: 'Xbox'},
+      ]
+    },
     degrees_of_rotation: 'Infinite',
     wheel_included: false,
     pedals_included: false,
-  },
-  {
+  }),
+  WheelbaseSeed({
     model: 'GT DD (8Nm)',
     brand: {
       connect: {
@@ -74,15 +87,17 @@ const wheelbaseSeeds: WheelbaseSeed[] = [
     torque: 8,
     drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
-    platforms: [
-      'PC',
-      'Playstation',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'},
+        { name: 'Playstation'},
+      ]
+    },
     degrees_of_rotation: 'Infinite',
     wheel_included: false,
     pedals_included: false,
-  },
-  {
+  }),
+  WheelbaseSeed({
     model: 'Podium DD1',
     brand: {
       connect: {
@@ -93,15 +108,17 @@ const wheelbaseSeeds: WheelbaseSeed[] = [
     torque: 20,
     drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
-    platforms: [
-      'PC',
-      'Xbox',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'},
+        { name: 'Xbox'},
+      ]
+    },
     degrees_of_rotation: 'Infinite',
     wheel_included: false,
     pedals_included: false,
-  },
-  {
+  }),
+  WheelbaseSeed({
     model: 'Podium DD2',
     brand: {
       connect: {
@@ -112,15 +129,17 @@ const wheelbaseSeeds: WheelbaseSeed[] = [
     torque: 25,
     drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
-    platforms: [
-      'PC',
-      'Xbox',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'},
+        { name: 'Xbox'},
+      ]
+    },
     degrees_of_rotation: 'Infinite',
     wheel_included: false,
     pedals_included: false,
-  },
-  {
+  }),
+  WheelbaseSeed({
     model: 'Simucube 2 Sport',
     brand: {
       connect: {
@@ -131,14 +150,16 @@ const wheelbaseSeeds: WheelbaseSeed[] = [
     torque: 17,
     drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
-    platforms: [
-      'PC',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'},
+      ]
+    },
     degrees_of_rotation: 'Infinite',
     wheel_included: false,
     pedals_included: false,
-  },
-  {
+  }),
+  WheelbaseSeed({
     model: 'Simucube 2 Pro',
     brand: {
       connect: {
@@ -149,14 +170,16 @@ const wheelbaseSeeds: WheelbaseSeed[] = [
     torque: 25,
     drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
-    platforms: [
-      'PC',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'},
+      ]
+    },
     degrees_of_rotation: 'Infinite',
     wheel_included: false,
     pedals_included: false,
-  },
-  {
+  }),
+  WheelbaseSeed({
     model: 'Simucube 2 Ultimate',
     brand: {
       connect: {
@@ -167,14 +190,16 @@ const wheelbaseSeeds: WheelbaseSeed[] = [
     torque: 32,
     drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
-    platforms: [
-      'PC',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'},
+      ]
+    },
     degrees_of_rotation: 'Infinite',
     wheel_included: false,
     pedals_included: false,
-  },
-  {
+  }),
+  WheelbaseSeed({
     model: 'R5',
     brand: {
       connect: {
@@ -185,14 +210,16 @@ const wheelbaseSeeds: WheelbaseSeed[] = [
     torque: 5,
     drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
-    platforms: [
-      'PC',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'},
+      ]
+    },
     degrees_of_rotation: 'Infinite',
     wheel_included: false,
     pedals_included: false,
-  },
-  {
+  }),
+  WheelbaseSeed({
     model: 'R9',
     brand: {
       connect: {
@@ -203,14 +230,16 @@ const wheelbaseSeeds: WheelbaseSeed[] = [
     torque: 9,
     drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
-    platforms: [
-      'PC',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'},
+      ]
+    },
     degrees_of_rotation: 'Infinite',
     wheel_included: false,
     pedals_included: false,
-  },
-  {
+  }),
+  WheelbaseSeed({
     model: 'R16',
     brand: {
       connect: {
@@ -221,14 +250,16 @@ const wheelbaseSeeds: WheelbaseSeed[] = [
     torque: 16,
     drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
-    platforms: [
-      'PC',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'},
+      ]
+    },
     degrees_of_rotation: 'Infinite',
     wheel_included: false,
     pedals_included: false,
-  },
-  {
+  }),
+  WheelbaseSeed({
     model: 'R21',
     brand: {
       connect: {
@@ -239,13 +270,35 @@ const wheelbaseSeeds: WheelbaseSeed[] = [
     torque: 21,
     drive_type: ForceFeedbackType.DIRECT_DRIVE,
     swappable_wheels: true,
-    platforms: [
-      'PC',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'},
+      ]
+    },
     degrees_of_rotation: 'Infinite',
     wheel_included: false,
     pedals_included: false,
-  },
+  }),
 ]
 
-export default wheelbaseSeeds
+async function seedWheelbases() {
+  console.log('Seeding wheelbases...');
+  try {
+    for (const wheelbase of wheelbaseSeeds) {
+      await prisma.wheelbase.upsert({
+        where: { slug: wheelbase.slug },
+        update: {
+          ...wheelbase
+        },
+        create: {
+          ...wheelbase
+        },
+      })
+    }
+    console.log('Wheelbases seeded!')
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export default seedWheelbases;

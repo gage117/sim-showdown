@@ -1,11 +1,18 @@
-import type { Shifter } from '@prisma/client';
-import type { SeedPartial } from './seedPartial';
+import type { Prisma } from '@prisma/client';
 import { ShifterType, ShifterSpeedType, ShifterThrowType, SensorType } from '@prisma/client'
+import prisma from './prisma.ts';
+import { slugifyForDB } from './seedUtils.ts';
 
-type ShifterSeed = Partial<Shifter> & SeedPartial
+function ShifterSeed(shifter: Omit<Prisma.ShifterCreateInput, 'slug'>): Prisma.ShifterCreateInput {
+  if (!shifter.brand.connect) throw new Error('ShifterSeed requires a brand.connect property')
+  return {
+    ...shifter,
+    slug: slugifyForDB(`${shifter.model}_${shifter.brand.connect.name}`)
+  }
+}
 
-const shifterSeeds: ShifterSeed[] = [
-  {
+const shifterSeeds: Prisma.ShifterCreateInput[] = [
+  ShifterSeed({
     model: 'Driving Force Shifter',
     brand: {
       connect: {
@@ -22,16 +29,18 @@ const shifterSeeds: ShifterSeed[] = [
       ShifterThrowType.SHORT
     ],
     sensorType: SensorType.POTENTIOMETER,
-    platforms: [
-      'PC',
-      'Playstation',
-      'Xbox',
-    ],
+    platforms: {
+      connect: [
+          { name: 'PC'},
+          { name: 'Playstation'},
+          { name: 'Xbox'},  
+      ]
+    },
     notes: [
       'Proprietary to Logitech G923, G29 and G920 wheels',
     ]
-  },
-  {
+  }),
+  ShifterSeed({
     model: 'TH8A',
     brand: {
       connect: {
@@ -49,13 +58,15 @@ const shifterSeeds: ShifterSeed[] = [
       ShifterThrowType.SHORT,
     ],
     sensorType: SensorType.HALL,
-    platforms: [
-      'PC',
-      'Playstation',
-      'Xbox',
-    ]
-  },
-  {
+    platforms: {
+      connect: [
+          { name: 'PC'},
+          { name: 'Playstation'},
+          { name: 'Xbox'},  
+      ]
+    },
+  }),
+  ShifterSeed({
     model: 'ClubSport Shifter SQ V 1.5',
     brand: {
       connect: {
@@ -73,15 +84,37 @@ const shifterSeeds: ShifterSeed[] = [
       ShifterThrowType.SHORT,
     ],
     sensorType: SensorType.NA,
-    platforms: [
-      'PC',
-      'Playstation',
-      'Xbox',
-    ],
+    platforms: {
+      connect: [
+          { name: 'PC'},
+          { name: 'Playstation'},
+          { name: 'Xbox'},  
+      ]
+    },
     notes: [
       'Requires ClubSport USB Adapter to connect via USB to PC',
     ]
-  }
+  })
 ]
 
-export default shifterSeeds
+async function seedWShifters() {
+  console.log('Seeding shifters...');
+  try {
+    for (const shifter of shifterSeeds) {
+      await prisma.shifter.upsert({
+        where: { slug: shifter.slug },
+        update: {
+          ...shifter
+        },
+        create: {
+          ...shifter
+        },
+      })
+    }
+    console.log('Shifters seeded!')
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export default seedWShifters

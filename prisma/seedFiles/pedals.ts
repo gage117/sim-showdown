@@ -3,11 +3,20 @@ import { PedalType, SensorType, ForceUnit } from '@prisma/client';
 import prisma from './prisma.ts';
 import { slugifyForDB } from './seedUtils.ts';
 
-function PedalSeed(pedal: Omit<Prisma.PedalCreateInput, 'slug'>): Prisma.PedalCreateInput {
-  if (!pedal.brand.connect) throw new Error('PedalSeed requires a brand.connect property')
+function PedalSeed(pedal: Omit<Prisma.PedalCreateInput, 'slug' | 'brand'> & { brand: string }): Prisma.PedalCreateInput {
+  if (!pedal.brand) throw new Error('PedalSeed requires a brand property')
   return {
     ...pedal,
-    slug: slugifyForDB(`${pedal.model}_${pedal.brand.connect.name}`)
+    brand: {
+      connectOrCreate: {
+        where: { name: pedal.brand },
+        create: {
+          name: pedal.brand,
+          slug: slugifyForDB(pedal.brand)
+        },
+      },
+    },
+    slug: slugifyForDB(`${pedal.model}_${pedal.brand}`)
   }
 }
 
@@ -15,11 +24,7 @@ const pedalSeeds: Prisma.PedalCreateInput[] = [
   // Asetek
   PedalSeed({
     model: 'Invicta',
-    brand: {
-      connect: {
-        name: 'Asetek',
-      },
-    },
+    brand: 'Asetek',
     type: PedalType.THROTTLE_BRAKE,
     price: 899.99,
     throttle_sensor: SensorType.HALL,
@@ -37,11 +42,7 @@ const pedalSeeds: Prisma.PedalCreateInput[] = [
   // Fanatec
   PedalSeed({
     model: 'CSL',
-    brand: {
-      connect: {
-        name: 'Fanatec',
-      },
-    },
+    brand: 'Fanatec',
     type: PedalType.THROTTLE_BRAKE,
     price: 79.95,
     throttle_sensor: SensorType.HALL,
@@ -58,11 +59,7 @@ const pedalSeeds: Prisma.PedalCreateInput[] = [
   }),
   PedalSeed({
     model: 'CSL LC',
-    brand: {
-      connect: {
-        name: 'Fanatec',
-      },
-    },
+    brand: 'Fanatec',
     type: PedalType.THREE_PEDAL,
     price: 199.95,
     throttle_sensor: SensorType.HALL,
@@ -79,11 +76,7 @@ const pedalSeeds: Prisma.PedalCreateInput[] = [
   }),
   PedalSeed({
     model: 'CSL Elite V2',
-    brand: {
-      connect: {
-        name: 'Fanatec',
-      },
-    },
+    brand: 'Fanatec',
     type: PedalType.THREE_PEDAL,
     price: 299.95,
     throttle_sensor: SensorType.HALL,
@@ -100,11 +93,7 @@ const pedalSeeds: Prisma.PedalCreateInput[] = [
   }),
   PedalSeed({
     model: 'ClubSport V3',
-    brand: {
-      connect: {
-        name: 'Fanatec',
-      },
-    },
+    brand: 'Fanatec',
     type: PedalType.THREE_PEDAL,
     price: 399.95,
     throttle_sensor: SensorType.HALL,
@@ -125,11 +114,7 @@ const pedalSeeds: Prisma.PedalCreateInput[] = [
   // Logitech
   PedalSeed({
     model: 'Pro',
-    brand: {
-      connect: {
-        name: 'Logitech',
-      },
-    },
+    brand: 'Logitech',
     type: PedalType.THREE_PEDAL,
     price: 349.99,
     throttle_sensor: SensorType.HALL,
@@ -147,11 +132,7 @@ const pedalSeeds: Prisma.PedalCreateInput[] = [
   // Simucube
   PedalSeed({
     model: 'ActivePedal',
-    brand: {
-      connect: {
-        name: 'Simucube',
-      },
-    },
+    brand: 'Simucube',
     type: PedalType.PROGRAMMABLE,
     price: 1959.99,
     throttle_sensor: SensorType.LOAD_CELL,

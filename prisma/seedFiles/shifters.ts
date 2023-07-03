@@ -3,22 +3,27 @@ import { ShifterType, ShifterSpeedType, ShifterThrowType, SensorType } from '@pr
 import prisma from './prisma.ts';
 import { slugifyForDB } from './seedUtils.ts';
 
-function ShifterSeed(shifter: Omit<Prisma.ShifterCreateInput, 'slug'>): Prisma.ShifterCreateInput {
-  if (!shifter.brand.connect) throw new Error('ShifterSeed requires a brand.connect property')
+function ShifterSeed(shifter: Omit<Prisma.ShifterCreateInput, 'slug' | 'brand'> & { brand: string }): Prisma.ShifterCreateInput {
+  if (!shifter.brand) throw new Error('ShifterSeed requires a brand property')
   return {
     ...shifter,
-    slug: slugifyForDB(`${shifter.model}_${shifter.brand.connect.name}`)
+    brand: {
+      connectOrCreate: {
+        where: { name: shifter.brand },
+        create: {
+          name: shifter.brand,
+          slug: slugifyForDB(shifter.brand)
+        },
+      },
+    },
+    slug: slugifyForDB(`${shifter.model}_${shifter.brand}`)
   }
 }
 
 const shifterSeeds: Prisma.ShifterCreateInput[] = [
   ShifterSeed({
     model: 'Driving Force Shifter',
-    brand: {
-      connect: {
-        name: 'Logitech',
-      },
-    },
+    brand: 'Logitech',
     price: 59.99,
     type: ShifterType.HPATTERN,
     speeds: [
@@ -42,11 +47,7 @@ const shifterSeeds: Prisma.ShifterCreateInput[] = [
   }),
   ShifterSeed({
     model: 'TH8A',
-    brand: {
-      connect: {
-        name: 'Thrustmaster',
-      },
-    },
+    brand: 'Thrustmaster',
     price: 199.99,
     type: ShifterType.SEQUENTIAL_HPATTERN,
     speeds: [
@@ -68,11 +69,7 @@ const shifterSeeds: Prisma.ShifterCreateInput[] = [
   }),
   ShifterSeed({
     model: 'ClubSport Shifter SQ V 1.5',
-    brand: {
-      connect: {
-        name: 'Fanatec',
-      },
-    },
+    brand: 'Fanatec',
     price: 259.95,
     type: ShifterType.SEQUENTIAL_HPATTERN,
     speeds: [

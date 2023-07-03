@@ -98,16 +98,26 @@ model Shifter {
 }
 
 model Handbrake {
-  id                  Int      @id @default(autoincrement())
-  slug                String  @unique @db.VarChar(255)
-  model               String  @db.VarChar(255)
-  brandSlug           String  @db.VarChar(255)
-  brand               Brand   @relation(fields: [brandSlug], references: [slug])
-  price               Float
-  type                String?
-  sensorType          SensorType @default(NA)
-  platforms           Platform[]
-  notes               String[]
+  id                      Int      @id @default(autoincrement())
+  slug                    String  @unique @db.VarChar(255)
+  model                   String  @db.VarChar(255)
+  brandSlug               String  @db.VarChar(255)
+  brand                   Brand   @relation(fields: [brandSlug], references: [slug])
+  price                   Float
+  mountingPosition        HandbrakeMountingPosition?
+  sensorType              SensorType @default(NA)
+  adjustableAngle         Boolean?
+  adjustableTravel        Boolean?
+  adjustablePressure      Boolean?
+  platforms               Platform[]
+  notes                   String[]
+}
+
+enum HandbrakeMountingPosition {
+  HORIZONTAL
+  VERTICAL
+  VERTICAL_HORIZONTAL
+  OTHER
 }
 
 enum PedalType {

@@ -1,11 +1,11 @@
 /** @type {import('@remix-run/dev').AppConfig} */
-module.exports = {
+const config = {
   ignoredRouteFiles: ["**/.*"],
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // serverBuildPath: "build/index.js",
   // publicPath: "/build/",
-  serverModuleFormat: "cjs",
+  serverModuleFormat: "esm",
   tailwind: true,
   future: {
     // v2_errorBoundary: true,
@@ -14,3 +14,5 @@ module.exports = {
     // v2_routeConvention: true,
   },
 };
+
+export default config;

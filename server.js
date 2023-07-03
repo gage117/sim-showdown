@@ -1,10 +1,9 @@
-const path = require("path");
-
-const { createRequestHandler } = require("@remix-run/express");
-const { installGlobals } = require("@remix-run/node");
-const compression = require("compression");
-const express = require("express");
-const morgan = require("morgan");
+import path from "path";
+import { createRequestHandler } from "@remix-run/express";
+import { installGlobals } from "@remix-run/node";
+import compression from "compression";
+import express from "express";
+import morgan from "morgan";
 
 installGlobals();
 

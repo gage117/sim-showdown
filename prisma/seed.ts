@@ -4,6 +4,7 @@ import seedBrands from './seedFiles/brands.ts';
 import seedWheelbases from './seedFiles/wheelbases.ts';
 import seedPedals from './seedFiles/pedals.ts';
 import seedShifters from './seedFiles/shifters.ts';
+import seedHandbrakes from './seedFiles/handbrakes.ts';
 
 async function seed() {
   console.log('\n\nSeeding database...');
@@ -21,6 +22,7 @@ async function seed() {
     seedWheelbases(),
     seedPedals(),
     seedShifters(),
+    seedHandbrakes(),
   ]);
   console.log('---------------------------------');
   console.log('Seeding complete! 🌱');

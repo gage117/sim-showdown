@@ -1,14 +1,30 @@
-const { Pedal, PedalType, SensorType, ForceUnit } = require('@prisma/client')
+import type { Prisma } from '@prisma/client'
+import { PedalType, SensorType, ForceUnit } from '@prisma/client';
+import prisma from './prisma.ts';
+import { slugifyForDB } from './seedUtils.ts';
 
-const pedalSeeds: typeof Pedal[] = [
-  // Asetek
-  {
-    model: 'Invicta',
+function PedalSeed(pedal: Omit<Prisma.PedalCreateInput, 'slug' | 'brand'> & { brand: string }): Prisma.PedalCreateInput {
+  if (!pedal.brand) throw new Error('PedalSeed requires a brand property')
+  return {
+    ...pedal,
     brand: {
-      connect: {
-        name: 'Asetek',
+      connectOrCreate: {
+        where: { name: pedal.brand },
+        create: {
+          name: pedal.brand,
+          slug: slugifyForDB(pedal.brand)
+        },
       },
     },
+    slug: slugifyForDB(`${pedal.model}_${pedal.brand}`)
+  }
+}
+
+const pedalSeeds: Prisma.PedalCreateInput[] = [
+  // Asetek
+  PedalSeed({
+    model: 'Invicta',
+    brand: 'Asetek',
     type: PedalType.THROTTLE_BRAKE,
     price: 899.99,
     throttle_sensor: SensorType.HALL,
@@ -17,18 +33,16 @@ const pedalSeeds: typeof Pedal[] = [
     brake_sensor_load_unit: ForceUnit.KG,
     clutch_sensor: SensorType.NA,
     heel_plate_included: false,
-    platforms: [
-      'PC',
-    ]
-  },
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    }
+  }),
   // Fanatec
-  {
+  PedalSeed({
     model: 'CSL',
-    brand: {
-      connect: {
-        name: 'Fanatec',
-      },
-    },
+    brand: 'Fanatec',
     type: PedalType.THROTTLE_BRAKE,
     price: 79.95,
     throttle_sensor: SensorType.HALL,
@@ -37,19 +51,15 @@ const pedalSeeds: typeof Pedal[] = [
     brake_sensor_load_unit: ForceUnit.NA,
     clutch_sensor: SensorType.NONE,
     heel_plate_included: true,
-    platforms: [
-      'PC',
-      'Xbox',
-      'Playstation'
-    ]
-  },
-  {
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    }
+  }),
+  PedalSeed({
     model: 'CSL LC',
-    brand: {
-      connect: {
-        name: 'Fanatec',
-      },
-    },
+    brand: 'Fanatec',
     type: PedalType.THREE_PEDAL,
     price: 199.95,
     throttle_sensor: SensorType.HALL,
@@ -58,19 +68,15 @@ const pedalSeeds: typeof Pedal[] = [
     brake_sensor_load_unit: ForceUnit.NA,
     clutch_sensor: SensorType.HALL,
     heel_plate_included: true,
-    platforms: [
-      'PC',
-      'Xbox',
-      'Playstation'
-    ]
-  },
-  {
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    }
+  }),
+  PedalSeed({
     model: 'CSL Elite V2',
-    brand: {
-      connect: {
-        name: 'Fanatec',
-      },
-    },
+    brand: 'Fanatec',
     type: PedalType.THREE_PEDAL,
     price: 299.95,
     throttle_sensor: SensorType.HALL,
@@ -79,19 +85,15 @@ const pedalSeeds: typeof Pedal[] = [
     brake_sensor_load_unit: ForceUnit.KG,
     clutch_sensor: SensorType.HALL,
     heel_plate_included: true,
-    platforms: [
-      'PC',
-      'Xbox',
-      'Playstation'
-    ]
-  },
-  {
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    }
+  }),
+  PedalSeed({
     model: 'ClubSport V3',
-    brand: {
-      connect: {
-        name: 'Fanatec',
-      },
-    },
+    brand: 'Fanatec',
     type: PedalType.THREE_PEDAL,
     price: 399.95,
     throttle_sensor: SensorType.HALL,
@@ -100,23 +102,19 @@ const pedalSeeds: typeof Pedal[] = [
     brake_sensor_load_unit: ForceUnit.KG,
     clutch_sensor: SensorType.HALL,
     heel_plate_included: true,
-    platforms: [
-      'PC',
-      'Xbox',
-      'Playstation'
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    },
     notes: [
       'Vibration motor on Throttle and Brake',
     ]
-  },
+  }),
   // Logitech
-  {
+  PedalSeed({
     model: 'Pro',
-    brand: {
-      connect: {
-        name: 'Logitech',
-      },
-    },
+    brand: 'Logitech',
     type: PedalType.THREE_PEDAL,
     price: 349.99,
     throttle_sensor: SensorType.HALL,
@@ -125,20 +123,16 @@ const pedalSeeds: typeof Pedal[] = [
     brake_sensor_load_unit: ForceUnit.KG,
     clutch_sensor: SensorType.HALL,
     heel_plate_included: true,
-    platforms: [
-      'PC',
-      'Xbox',
-      'Playstation'
-    ]
-  },
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    }
+  }),
   // Simucube
-  {
+  PedalSeed({
     model: 'ActivePedal',
-    brand: {
-      connect: {
-        name: 'Simucube',
-      },
-    },
+    brand: 'Simucube',
     type: PedalType.PROGRAMMABLE,
     price: 1959.99,
     throttle_sensor: SensorType.LOAD_CELL,
@@ -147,13 +141,35 @@ const pedalSeeds: typeof Pedal[] = [
     brake_sensor_load_unit: ForceUnit.KG,
     clutch_sensor: SensorType.LOAD_CELL,
     heel_plate_included: false,
-    platforms: [
-      'PC',
-    ],
+    platforms: {
+      connect: [
+        { name: 'PC'}
+      ]
+    },
     notes: [
       'Single pedal',
     ]
-  },
+  }),
 ]
 
-module.exports = pedalSeeds
+async function seedPedals() {
+  console.log('Seeding pedals...');
+  try {
+    for (const pedal of pedalSeeds) {
+      await prisma.pedal.upsert({
+        where: { slug: pedal.slug },
+        update: {
+          ...pedal
+        },
+        create: {
+          ...pedal
+        },
+      })
+    }
+    console.log('Pedals seeded!')
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export default seedPedals

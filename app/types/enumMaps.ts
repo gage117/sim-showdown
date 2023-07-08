@@ -3,6 +3,10 @@ const {
   ForceUnit,
   PedalType,
   ForceFeedbackType,
+  ShifterType,
+  ShifterSpeedType,
+  ShifterThrowType,
+  HandbrakeMountingPosition,
 } = require('@prisma/client');
 
 export const SensorLabels = {
@@ -48,3 +52,34 @@ export const ForceFeedbackTypeLabels = {
   [ForceFeedbackType.NA]: 'N/A',
   [ForceFeedbackType.OTHER]: 'Other',
 };
+
+export const ShifterTypeLabels = {
+  [ShifterType.H_PATTERN]: 'H-Pattern',
+  [ShifterType.SEQUENTIAL]: 'Sequential',
+  [ShifterType.SEQUENTIAL_HPATTERN]: 'Combo',
+  [ShifterType.OTHER]: 'Other',
+}
+
+export const ShifterSpeedTypeLabels = {
+  [ShifterSpeedType.FIVE_PLUS_REVERSE]: '5+R',
+  [ShifterSpeedType.SIX_PLUS_REVERSE]: '6+R',
+  [ShifterSpeedType.SEVEN_PLUS_REVERSE]: '7+R',
+  [ShifterSpeedType.EIGHT_PLUS_REVERSE]: '8+R',
+  [ShifterSpeedType.SEQUENTIAL]: 'SQ',
+  [ShifterSpeedType.OTHER]: 'Other',
+}
+
+export const ShifterThrowTypeLabels = {
+  [ShifterThrowType.SHORT]: 'Short',
+  [ShifterThrowType.MEDIUM]: 'Medium',
+  [ShifterThrowType.LONG]: 'Long',
+  [ShifterThrowType.ADJUSTABLE]: 'Adjustable',
+  [ShifterThrowType.OTHER]: 'Other',
+}
+
+export const HandbrakeMountingPositionLabels = {
+  [HandbrakeMountingPosition.HORIZONTAL]: 'Horizontal',
+  [HandbrakeMountingPosition.VERTICAL]: 'Vertical',
+  [HandbrakeMountingPosition.VERTICAL_HORIZONTAL]: 'Adjustable',
+  [HandbrakeMountingPosition.OTHER]: 'Other'
+}

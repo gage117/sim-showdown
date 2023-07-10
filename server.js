@@ -5,7 +5,7 @@ const { installGlobals } = require("@remix-run/node");
 const compression = require("compression");
 const express = require("express");
 const morgan = require("morgan");
-const rateLimiterMiddleware = require("app/middleware/rateLimiterMiddleware")
+const rateLimiterMiddleware = require("./middleware/rateLimiterMiddleware.js")
 
 installGlobals();
 

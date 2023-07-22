@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import FreeSoloCreateOption from "~/components/FreeSoloCreateOption";
 import type {FreeSoloOptionType} from "~/components/FreeSoloCreateOption";
+import AddNotes from "~/components/AddNotes";
 import {
   PedalTypeLabels,
   SensorLabels,
@@ -54,10 +55,10 @@ export const action = async ({ request }: ActionArgs) => {
   const body = await request.formData();
   const bodyObj = Object.fromEntries(body.entries());
   console.log(bodyObj);
-  
-  
+
   const platformsString = bodyObj.platforms as string;
   const platforms = platformsString.split(",").map((platform) => platform.trim());
+  const notes = Object.entries(bodyObj).filter(([key, value]) => key.startsWith("note-")).map(([key, value]) => value as string);
   const pedal: NewPedal = {
     model: bodyObj.model as string,
     brand: bodyObj.brand as Brand['name'],
@@ -66,10 +67,11 @@ export const action = async ({ request }: ActionArgs) => {
     throttle_sensor: bodyObj.throttle_sensor as SensorType,
     brake_sensor: bodyObj.brake_sensor as SensorType,
     clutch_sensor: bodyObj.clutch_sensor as SensorType,
-    brake_sensor_load_max: parseInt(bodyObj.brake_sensor_load_max as string),
+    brake_sensor_load_max: parseInt(bodyObj.brake_sensor_load_max as string) || undefined,
     brake_sensor_load_unit: bodyObj.brake_sensor_load_unit as ForceUnit,
     heel_plate_included: bodyObj.heel_plate_included === "on",
     platforms: platforms as Platform['name'][],
+    notes: notes,
   }
   const pedalResponse = await createPedal(pedal);
   return pedalResponse;
@@ -235,6 +237,7 @@ export default function PedalForm() {
               </MenuItem>
             ))}
           </Select>
+          <AddNotes />
           <Button color="secondary" variant="contained" type="submit">Submit</Button>
         </Stack>
       </Form>

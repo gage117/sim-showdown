@@ -21,9 +21,6 @@ export default function SubmitData() {
           <StyledLink to="wheelbase">Wheelbases</StyledLink>
         </Button>
         <Button>
-          <StyledLink to="wheel">Wheels</StyledLink>
-        </Button>
-        <Button>
           <StyledLink to="pedal">Pedals</StyledLink>
         </Button>
       </ButtonGroup>
